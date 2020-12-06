@@ -1,0 +1,64 @@
+reference_path: tSFReference
+test_path: G:\tS\MissionReviewHelper\CO20_Special_Activity_1A.MCN_Aliabad
+review_directory_name: Review
+
+tSF_config:
+  config: dzn_tSFramework\dzn_tSFramework_Init.sqf
+  path: dzn_tSFramework\Modules
+  pattern: tSF_module_([a-zA-Z]*)[\s=]+(false|true)
+
+Checklist:
+  Core:
+    - file: init.sqf
+    - file: initServer.sqf
+    - file: overview.jpg
+      alert: true
+  Dynai:
+    - file: dzn_dynai\Settings.sqf
+    - file: dzn_dynai\Zones.sqf
+      alert: true
+  Gear:
+    - file: dzn_gear\Settings.sqf
+    - file: dzn_gear\Kits.sqf
+      alert: true
+    - file: dzn_gear\GearAssignementTable.sqf
+      alert: true
+  tSF:
+    - file: dzn_tSFramework\dzn_tSFramework_Init.sqf
+  tSF_modules:
+    - file: IntroText\Settings.sqf
+      alert: true
+    - file: Briefing\Settings.sqf
+    - file: Briefing\tSF_briefing.sqf
+      alert: true
+    - file: MissionConditions\Settings.sqf
+      alert: true
+    - file: Interactives\Settings.sqf
+      alert: true
+    - file: AirborneSupport\Settings.sqf
+      alert: true
+    - file: ArtillerySupport\Settings.sqf
+      alert: true
+    - file: EditorVehicleCrew\Settings.sqf
+      alert: true
+    - file: Conversations\Settings.sqf
+    - file: tSNotes\Settings.sqf
+    - file: tSSettings\Settings.sqf
+    - file: MissionDefaults\Settings.sqf
+    - file: JIPTeleport\Settings.sqf
+    - file: CCP\Settings.sqf
+    - file: FARP\Settings.sqf
+    - file: Authorization\Settings.sqf
+    - file: ACEActions\Settings.sqf
+    - file: POM\Settings.sqf
+    - file: EditorUnitBehavior\Settings.sqf
+    - file: EditorRadioSettings\Settings.sqf
+    - file: tSAdminTools\Settings.sqf
+
+Reporter:
+  err1: "No reference file found! Check Reference directory for consistency! Skipping checks for file: {}"
+  err2: "### Review issue! File content was not edited, but expected to be! Check: {}"
+  err3: "### Review issue! File content was edited, but tSF module is not active! Check: {}"
+  wrn1: "Missing [{}] file in reviewed mission"
+  info1: "Skip [{}] unchanged file."
+  info2: "Copy [{}] edited file to review directory."
