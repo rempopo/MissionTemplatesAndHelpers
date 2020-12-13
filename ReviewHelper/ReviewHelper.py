@@ -12,7 +12,7 @@ from ConfigReader import ConfigReader
 
 
 class Reviewer:
-    USE_TEST_MISSION = True
+    USE_TEST_MISSION = False
 
     def __init__(self):
         self.reporter = Reporter()
@@ -142,13 +142,17 @@ class Reviewer:
                 continue
 
             kits_found = self.Gear.check_kit_in_file(file, pattern)
-            for kitInfo in kits_found:
-                kit_name = kitInfo.get("name")
-                if kitInfo.get("valid"):
-                    self.reporter.info("    Kit [{}] exists".format(kit_name))
-                else:
-                    self.reporter.error("   Kit [{}] is missing in Kits.sqf".format(kit_name))
-                    self.reporter.review_error(7, kit_name, file)
+            if not kits_found:
+                self.reporter.error("Failed to find kits in [{}] file!".format(file))
+                self.reporter.review_error(8, file)
+            else:
+                for kitInfo in kits_found:
+                    kit_name = kitInfo.get("name")
+                    if kitInfo.get("valid"):
+                        self.reporter.info("    Kit [{}] exists".format(kit_name))
+                    else:
+                        self.reporter.error("   Kit [{}] is missing in Kits.sqf".format(kit_name))
+                        self.reporter.review_error(7, kit_name, file)
 
             self.reporter.info("Finished")
 
@@ -250,7 +254,7 @@ class Reviewer:
         # Copies and renames given file to format Dir1_Dir2_DirN_Filename
         new_name = os.path.join(to, "_".join(file.split(os.sep)))
 
-        self.reporter.info("-- Copy file -- from {} to {}".format(path, new_name))
+        self.reporter.info("-- Copy changed file -- from {} to {}".format(path, new_name))
         try:
             shutil.copyfile(path, new_name)
         except:

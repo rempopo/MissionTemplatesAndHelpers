@@ -33,6 +33,7 @@ Checklist:
     - file: _tSF_\Briefing\Settings.sqf
     - file: _tSF_\Briefing\tSF_briefing.sqf
       alert: true
+    - file: _tSF_\MissionConditions\Endings.hpp
     - file: _tSF_\MissionConditions\Settings.sqf
       alert: true
     - file: _tSF_\Interactives\Settings.sqf
@@ -62,13 +63,18 @@ dzn_Gear:
   kits_file: dzn_gear\Kits.sqf
   gat_file: dzn_gear\GearAssignementTable.sqf
   kitname_pattern: /(kit_[a-zA-Z\d_]+)/
-  gat_table_pattern: /"([a-zA-Z\s\d'`@-]+)"\s+TO\s+"(kit_[a-zA-Z\d_]+)"\s+KIT/
+  gat_table_pattern: /"(.+)"\s+TO\s+"(kit_[a-zA-Z\d_]+)"\s+KIT/
   checklist:
     - file: dzn_dynai\Zones.sqf
+     # Crew kits
     - file: _tSF_\AirborneSupport\Settings.sqf
       pattern: /GVAR\(PilotKit\)\s*=\s*"(.*)"/
+    # Crew kits
     - file: _tSF_\ArtillerySupport\Settings.sqf
       pattern: /CrewKitname\s*=\s*"(.+)"/
+    # Checks both custom and defaul opfor config with default pattern
+    - file: _tSF_\EditorVehicleCrew\Settings.sqf
+
 
 Reporter:
   err1: "No reference file found! Check Reference directory for consistency! Skipping checks for file: {}"
@@ -78,6 +84,7 @@ Reporter:
   err5: "### Review issue! Failed to find kits in GAT file!"
   err6: "### Review issue! GAT's kit [{}] is missing in Kits.sqf!"
   err7: "### Review issue! Kit [{}] from [{}] is missing in Kits.sqf!"
+  err8: "### Review issue! No kits detected in [{}] file or kits names malformed!"
   wrn1: "Missing [{}] file in reviewed mission"
   info1: "Skip [{}] unchanged file."
   info2: "Copy [{}] edited file to review directory."

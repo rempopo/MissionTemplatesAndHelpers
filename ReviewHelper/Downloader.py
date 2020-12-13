@@ -76,7 +76,7 @@ class Downloader:
         # Returns: new folder name (STRING)
 
         old_name = filename.rstrip(".zip")
-        new_name = filename.rstrip("-({}|{}).zip".format(self.BRANCH_MAIN, self.BRANCH_MASTER))
+        new_name = (old_name.split("-{}".format(self.BRANCH_MAIN))[0]).split("-{}".format(self.BRANCH_MASTER))[0]
         if os.path.isdir(new_name):
             shutil.rmtree(new_name)
 
