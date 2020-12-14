@@ -1,17 +1,19 @@
 reference_path: tSFReference
-test_path: G:\tS\MissionReviewHelper\CO20_Special_Activity_1A.MCN_Aliabad
+test_path: G:\tS\ReviewHelper\CO20_Special_Activity_1A.MCN_Aliabad
 review_directory_name: Review
 
 tSF_config:
   config: dzn_tSFramework\dzn_tSFramework_Init.sqf
   path: dzn_tSFramework\Modules
-  pattern: tSF_module_([a-zA-Z]*)[\s=]+(false|true)
+  pattern: /tSF_module_([a-zA-Z]*)[\s=]+(false|true)/
 
 Checklist:
   Core:
     - file: init.sqf
     - file: initServer.sqf
     - file: overview.jpg
+      alert: true
+    - file: description.ext
       alert: true
   Dynai:
     - file: dzn_dynai\Settings.sqf
@@ -26,39 +28,63 @@ Checklist:
   tSF:
     - file: dzn_tSFramework\dzn_tSFramework_Init.sqf
   tSF_modules:
-    - file: IntroText\Settings.sqf
+    - file: _tSF_\IntroText\Settings.sqf
       alert: true
-    - file: Briefing\Settings.sqf
-    - file: Briefing\tSF_briefing.sqf
+    - file: _tSF_\Briefing\Settings.sqf
+    - file: _tSF_\Briefing\tSF_briefing.sqf
       alert: true
-    - file: MissionConditions\Settings.sqf
+    - file: _tSF_\MissionConditions\Endings.hpp
+    - file: _tSF_\MissionConditions\Settings.sqf
       alert: true
-    - file: Interactives\Settings.sqf
+    - file: _tSF_\Interactives\Settings.sqf
       alert: true
-    - file: AirborneSupport\Settings.sqf
+    - file: _tSF_\AirborneSupport\Settings.sqf
       alert: true
-    - file: ArtillerySupport\Settings.sqf
+    - file: _tSF_\ArtillerySupport\Settings.sqf
       alert: true
-    - file: EditorVehicleCrew\Settings.sqf
+    - file: _tSF_\EditorVehicleCrew\Settings.sqf
       alert: true
-    - file: Conversations\Settings.sqf
-    - file: tSNotes\Settings.sqf
-    - file: tSSettings\Settings.sqf
-    - file: MissionDefaults\Settings.sqf
-    - file: JIPTeleport\Settings.sqf
-    - file: CCP\Settings.sqf
-    - file: FARP\Settings.sqf
-    - file: Authorization\Settings.sqf
-    - file: ACEActions\Settings.sqf
-    - file: POM\Settings.sqf
-    - file: EditorUnitBehavior\Settings.sqf
-    - file: EditorRadioSettings\Settings.sqf
-    - file: tSAdminTools\Settings.sqf
+    - file: _tSF_\Conversations\Settings.sqf
+    - file: _tSF_\tSNotes\Settings.sqf
+    - file: _tSF_\tSSettings\Settings.sqf
+    - file: _tSF_\MissionDefaults\Settings.sqf
+    - file: _tSF_\JIPTeleport\Settings.sqf
+    - file: _tSF_\CCP\Settings.sqf
+    - file: _tSF_\FARP\Settings.sqf
+    - file: _tSF_\Authorization\Settings.sqf
+    - file: _tSF_\ACEActions\Settings.sqf
+    - file: _tSF_\POM\Settings.sqf
+    - file: _tSF_\EditorUnitBehavior\Settings.sqf
+    - file: _tSF_\EditorRadioSettings\Settings.sqf
+    - file: _tSF_\tSAdminTools\Settings.sqf
+
+
+dzn_Gear:
+  kits_file: dzn_gear\Kits.sqf
+  gat_file: dzn_gear\GearAssignementTable.sqf
+  kitname_pattern: /(kit_[a-zA-Z\d_]+)/
+  gat_table_pattern: /"(.+)"\s+TO\s+"(kit_[a-zA-Z\d_]+)"\s+KIT/
+  checklist:
+    - file: dzn_dynai\Zones.sqf
+     # Crew kits
+    - file: _tSF_\AirborneSupport\Settings.sqf
+      pattern: /GVAR\(PilotKit\)\s*=\s*"(.*)"/
+    # Crew kits
+    - file: _tSF_\ArtillerySupport\Settings.sqf
+      pattern: /CrewKitname\s*=\s*"(.+)"/
+    # Checks both custom and defaul opfor config with default pattern
+    - file: _tSF_\EditorVehicleCrew\Settings.sqf
+
 
 Reporter:
   err1: "No reference file found! Check Reference directory for consistency! Skipping checks for file: {}"
   err2: "### Review issue! File content was not edited, but expected to be! Check: {}"
   err3: "### Review issue! File content was edited, but tSF module is not active! Check: {}"
+  err4: "### Review issue! Failed to find Gear Assignement Table in reviewed mission: {}"
+  err5: "### Review issue! Failed to find kits in GAT file!"
+  err6: "### Review issue! GAT's kit [{}] is missing in Kits.sqf!"
+  err7: "### Review issue! Kit [{}] from [{}] is missing in Kits.sqf!"
+  err8: "### Review issue! No kits detected in [{}] file or kits names malformed!"
   wrn1: "Missing [{}] file in reviewed mission"
   info1: "Skip [{}] unchanged file."
   info2: "Copy [{}] edited file to review directory."
